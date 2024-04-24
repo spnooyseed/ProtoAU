@@ -38,12 +38,14 @@ class Runner(object):
             self.config['type']
         )
 
+import os
+dir = os.path.abspath(os.path.dirname(__file__))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default='ProtoAU')
-    parser.add_argument('--dataset', type=str, default='Yelp')
-    parser.add_argument('--root', type=str, default='/workspace/')
+    parser.add_argument('--dataset', type=str, default='yelp2018')
+    parser.add_argument('--root', type=str, default=f'{dir}')
     parser.add_argument('--gpu_id', type=int, default=0)
     parser.add_argument('--tags', nargs='*', default=[]) 
     parser.add_argument('--group', type=str, default='default')  #
