@@ -7,7 +7,7 @@ from data.loader import FileIO
 from os.path import abspath
 from util.evaluation import ranking_evaluation
 import sys
-from picture.feature import plot_features
+from visualize.feature import plot_features
 import wandb
 
 

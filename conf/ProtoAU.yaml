@@ -1,11 +1,10 @@
 yelp2018:
-  name: SwAVGCL
+  name: ProtoAU
   seed: 12345
   type: graph
   ranking: 
     - 10
     - 20
-    - 50
   embedding_size: 64
   num_epochs: 120
   batch_size: 2048

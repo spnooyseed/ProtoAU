@@ -5,7 +5,7 @@ from base.graph_recommender import GraphRecommender
 from util.sampler import next_batch_pairwise
 from util.loss_torch import bpr_loss, l2_reg_loss
 import wandb
-from LightGCN import LGCN_Encoder
+from .LightGCN import LGCN_Encoder
 
 class ProtoAU(GraphRecommender):
     def __init__(self, conf, training_set, test_set):
@@ -37,10 +37,10 @@ class ProtoAU(GraphRecommender):
         cl_loss = user_loss + item_loss
         return self.config['model_config.proto_reg'] * cl_loss
 
-    def align_loss(x, y, alpha=2):
+    def align_loss(self , x, y, alpha=2):
         return (x - y).norm(p=2, dim=1).pow(alpha).mean()
 
-    def uniform_loss(x, t=2):
+    def uniform_loss(self , x, t=2):
         return torch.pdist(x, p=2).pow(2).mul(-t).exp().mean().log()
 
     def proto_loss(self, z, prototypes, temperature=0.1):
@@ -53,7 +53,7 @@ class ProtoAU(GraphRecommender):
 
         c_t = prototypes[score_t.max(dim=1)[1]]
         c_s = prototypes[score_s.max(dim=1)[1]]
-        loss_au = self.align_loss(c_s, c_t) + self.uniform_loss() # here we choose lambda_3=1
+        loss_au = 0. # self.align_loss(c_s, c_t) + self.uniform_loss(c_s - c_t) # here we choose lambda_3=1
 
         # Apply the Sinkhorn-Knopp algorithm to get soft cluster assignments
         q_t = self.sinkhorn_knopp(score_t)
